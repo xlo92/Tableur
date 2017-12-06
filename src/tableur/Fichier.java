@@ -20,7 +20,7 @@ public class Fichier {
 		return false;
 	}
 	
-	private boolean ecrireCell(String cellText) {
+	public boolean ecrireCell(String cellText) {
 		return false;
 	}
 	
