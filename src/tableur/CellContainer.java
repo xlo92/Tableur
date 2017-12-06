@@ -21,4 +21,8 @@ public class CellContainer {
 	public boolean add(Cellule uneCellule) {
 		return false;
 	}
+	
+	public CellContainer copy() {
+		return null;
+	}
 }

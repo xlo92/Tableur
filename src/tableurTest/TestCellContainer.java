@@ -32,4 +32,11 @@ public class TestCellContainer {
 	public void testMajDependantes() {
 		assert(false);
 	}
+	
+	@Test
+	public void testCopy() {
+		CellContainer c = new CellContainer();
+		CellContainer c2 = c.copy();
+		assert(c!=c2);
+	}
 }

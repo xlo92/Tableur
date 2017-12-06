@@ -1,9 +1,15 @@
 package tableur;
 
 public class Interpreter {
-
-	public Interpreter() {
-		
+	
+	private  CellContainer cells;
+	
+	private static Interpreter interpreter = new Interpreter();;
+	
+	private Interpreter() {}
+	
+	public static Interpreter getInstance() {
+		return interpreter;
 	}
 	
 	public CellValeur<?> evaluer(String contenuCellule){
@@ -16,5 +22,9 @@ public class Interpreter {
 	
 	public boolean isDependante(String contenuCelluleB, String nomCelluleC) {
 		return false;
+	}
+	
+	public void setCells(CellContainer cells) {
+		this.cells = cells.copy();
 	}
 }
