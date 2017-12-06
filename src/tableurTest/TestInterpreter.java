@@ -84,16 +84,34 @@ public class TestInterpreter {
 	
 	@Test
 	public void testIsDependantePasDependante() {
-		assert(false);
+		Interpreter i = Interpreter.getInstance();
+		Cellule c = new Cellule("A1---7.5");
+		assert(!i.isDependante(c.getContenu(),"A2"));
 	}
 	
 	@Test
 	public void testIsDependanteDependante() {
-		assert(false);
+		Interpreter i = Interpreter.getInstance();
+		Cellule c = new Cellule("A1---A2");
+		assert(i.isDependante(c.getContenu(),"A2"));
 	}
+		
+	@Test
+	public void testIsDependanteDependanteEnCascade() {
+		Interpreter i = Interpreter.getInstance();
+		Cellule c = new Cellule("A1---A3");
+		Cellule c1 = new Cellule("A3---A2");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		cells.add(c1);
+		i.setCells(cells);
+		assert(i.isDependante(c.getContenu(),"A2"));
+	}	
 	
 	@Test
 	public void testTransformer() {
-		assert(false);
+		Interpreter i = Interpreter.getInstance();
+		Cellule c = new Cellule("A1---B1");
+		assert(i.transformer(c.getContenu(),c.getNom(),"A2").equals("B2"));
 	}
 }
