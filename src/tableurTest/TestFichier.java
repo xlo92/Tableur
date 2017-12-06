@@ -1,20 +1,13 @@
 package tableurTest;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import tableur.*;
 
 public class TestFichier {
-	
+
 	@Test
-	public void testEcrireCellCelluleNExistePas() {
-		assert(false);
-	}
-	
-	@Test
-	public void testEcrireCellCelluleExiste() {
+	public void testEcrireCell() {
 		assert(false);
 	}
 	
