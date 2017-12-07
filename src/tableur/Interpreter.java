@@ -12,7 +12,42 @@ public class Interpreter {
 		this.cells = cells;
 	}
 	
+	private CellValeur evaluer_num(String contenuCellule) {
+		Double d = Double.valueOf(contenuCellule);
+		int i = d.intValue();
+		if(d==i) return new CellInt(i);
+		return new CellDouble(d);
+	}
+	
+	private CellValeur evaluer_texte(String contenuCellule) {
+		String res = "";
+		Cellule c;
+		for(int i = 0;i<contenuCellule.length();i++) {
+			if(Character.isLetter(contenuCellule.charAt(i)) || contenuCellule.charAt(i) == '_' || Character.isDigit(contenuCellule.charAt(i))) {
+				res +=contenuCellule.charAt(i);
+			}else {
+				break;
+			}
+		}
+		if((c=cells.getCellule(res))!=null) {
+			return c.getValeur();
+		}else {
+			return null;
+		}
+	}
+	
 	public CellValeur evaluer(String contenuCellule){
+		if(Character.isDigit(contenuCellule.charAt(0))) {
+			return evaluer_num(contenuCellule);
+		}else {
+			if(Character.isLetter(contenuCellule.charAt(0)) || contenuCellule.charAt(0) == '_') {
+				return evaluer_texte(contenuCellule);
+			}else {
+				if(contenuCellule.charAt(0)=='$') {
+					//TODO
+				}
+			}
+		}
 		return null;
 	}
 	

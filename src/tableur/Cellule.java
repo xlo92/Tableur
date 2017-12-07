@@ -45,6 +45,7 @@ public class Cellule {
 	}
 	
 	public CellValeur getValeur() {
-		return valeur;
+		if(valeur!=null) return valeur.copy();
+		return null;
 	}
 }

@@ -8,16 +8,29 @@ public class TestInterpreter {
 
 	@Test
 	public void testEvaluerTexte() {
-		Interpreter i = new Interpreter();
 		Cellule c = new Cellule("A1---test");
-		assert(i.evaluer(c.getContenu()).getValeur().equals("test"));
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert(i.evaluer(c.getContenu())==null);
 	}
 	
 	@Test
-	public void testEvaluerNombre() {
-		Interpreter i =  new Interpreter();
+	public void testEvaluerDouble() {
 		Cellule c = new Cellule("A1---7.5");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
 		assert((Double)(i.evaluer(c.getContenu()).getValeur())==7.5);
+	}
+	
+	@Test
+	public void testEvaluerEntier() {
+		Cellule c = new Cellule("A1---3");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==3);
 	}
 	
 	@Test

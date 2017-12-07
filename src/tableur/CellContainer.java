@@ -11,9 +11,8 @@ public class CellContainer {
 	}
 	
 	public Cellule getCellule(String idCell) {
-            CellName n = new CellName(idCell);
             for(Cellule c : cells){
-                if(n.equals(c.getNom()))
+                if(c.getNom().getFullName().equals(idCell))
                     return c;
             }
             return null;
