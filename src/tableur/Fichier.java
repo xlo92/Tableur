@@ -1,23 +1,34 @@
 package tableur;
 
+import java.io.File;
+
 public class Fichier {
 
-	private String filename;
+	private File filename;
 	
 	public Fichier(String filename) {
-		
+            this.filename = new File(filename);
 	}
 	
 	public boolean makeBackUp() {
-		return false;
+            if(!filename.isDirectory()){
+                String newFileName = this.filename.getName()+".bak";
+                filename.renameTo(new File(newFileName));
+                return true;
+            }
+            return false;
 	}
 	
 	public boolean ecrireFichier(CellContainer cells) {
-		return false;
+            
+            return false;
 	}
 	
 	public boolean IsOnDisk(){
-		return false;
+            if(filename.exists()){
+                return true;
+            }
+            return false;
 	}
 	
 	public boolean ecrireCell(String cellText) {

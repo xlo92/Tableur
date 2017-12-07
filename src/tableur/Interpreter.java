@@ -2,7 +2,7 @@ package tableur;
 
 public class Interpreter {
 	
-	private  CellContainer cells;
+	private CellContainer cells;
 	
 	private static Interpreter interpreter = new Interpreter();;
 	
@@ -12,7 +12,7 @@ public class Interpreter {
 		return interpreter;
 	}
 	
-	public CellValeur<?> evaluer(String contenuCellule){
+	public CellValeur evaluer(String contenuCellule){
 		return null;
 	}
 	

@@ -7,11 +7,16 @@ public class CellContainer {
 	private ArrayList<Cellule> cells;
 	
 	public CellContainer() {
-		
+            this.cells = new ArrayList<Cellule>();
 	}
 	
 	public Cellule getCellule(String idCell) {
-		return null;
+            CellName n = new CellName(idCell);
+            for(Cellule c : cells){
+                if(n.equals(c.getNom()))
+                    return c;
+            }
+            return null;
 	}
 	
 	public void majDependantes(String uneCellule) {
@@ -19,10 +24,18 @@ public class CellContainer {
 	}
 	
 	public boolean add(Cellule uneCellule) {
-		return false;
+            if(uneCellule != null){
+                this.cells.add(uneCellule.copy());
+                return true;
+            }
+            return false;
 	}
 	
 	public CellContainer copy() {
-		return null;
+            CellContainer newCC = new CellContainer();
+            for(Cellule c : cells){
+                newCC.cells.add(c);
+            }
+            return newCC;
 	}
 }

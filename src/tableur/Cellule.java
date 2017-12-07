@@ -2,17 +2,17 @@ package tableur;
 
 public class Cellule {
 
-	private CellValeur<?> valeur;
+	private CellValeur valeur;
 	
 	private String contenu;
 	
-	private String nom;
+	private CellName nom;
 	
 	public Cellule(String cellText) {
-		String[] elem = cellText.split("---");
-		nom = elem[0];
-		contenu = elem[1];
-		valeur = null;
+            String[] elem = cellText.split("---");
+            nom = new CellName(elem[0]);
+            contenu = elem[1];
+            valeur = null;
 	}
 	
 	public void affecterContenu(String data) {
@@ -20,7 +20,7 @@ public class Cellule {
 	}
 	
 	public String getText() {
-		return nom+"---"+contenu;
+		return nom.getFullName()+"---"+contenu;
 	}
 	
 	public void clear() {
@@ -28,19 +28,23 @@ public class Cellule {
 		valeur = null;
 	}
 	
-	public void affecterValeur(CellValeur<?> valeur) {
-			this.valeur = valeur.copy();
+	public void affecterValeur(CellValeur valeur) {
+                this.valeur = valeur.copy();
 	}
+        
+        public Cellule copy(){
+            return new Cellule(getText());
+        }
 	
 	public String getContenu() {
 		return contenu;
 	}
 	
-	public String getNom() {
+	public CellName getNom() {
 		return nom;
 	}
 	
-	public CellValeur<?> getValeur() {
+	public CellValeur getValeur() {
 		return valeur;
 	}
 }
