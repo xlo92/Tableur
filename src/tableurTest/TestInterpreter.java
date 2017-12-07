@@ -10,7 +10,7 @@ public class TestInterpreter {
 	public void testEvaluerTexte() {
 		Interpreter i = new Interpreter();
 		Cellule c = new Cellule("A1---test");
-		assert(i.evaluer(c.getContenu())==null);
+		assert(i.evaluer(c.getContenu()).getValeur().equals("test"));
 	}
 	
 	@Test
@@ -79,6 +79,9 @@ public class TestInterpreter {
 	public void testIsDependantePasDependante() {
 		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---7.5");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		i.setCells(cells);
 		assert(!i.isDependante(c.getContenu(),"A2"));
 	}
 	
@@ -86,6 +89,11 @@ public class TestInterpreter {
 	public void testIsDependanteDependante() {
 		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---A2");
+		Cellule c1 = new Cellule("A2---3");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		cells.add(c1);
+		i.setCells(cells);
 		assert(i.isDependante(c.getContenu(),"A2"));
 	}
 		
@@ -94,9 +102,11 @@ public class TestInterpreter {
 		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---A3");
 		Cellule c1 = new Cellule("A3---A2");
+		Cellule c2 = new Cellule("A2---4");
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		cells.add(c1);
+		cells.add(c2);
 		i.setCells(cells);
 		assert(i.isDependante(c.getContenu(),"A2"));
 	}	
