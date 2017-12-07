@@ -30,7 +30,7 @@ public class TestCellule {
 	@Test
 	public void testAffecterValeurEntier() {
 		Cellule c = new Cellule("A1---test");
-		CellValeur<Integer> v = new CellValeur<Integer>(3);
+		CellInt v = new CellInt(3);
 		c.affecterValeur(v);
 		assert(c.getValeur().getValeur()==v.getValeur());
 	}
@@ -38,7 +38,7 @@ public class TestCellule {
 	@Test
 	public void testAffecterValeurDouble() {
 		Cellule c = new Cellule("A1---test");
-		CellValeur<Double> v = new CellValeur<Double>(7.6);
+		CellDouble v = new CellDouble(7.6);
 		c.affecterValeur(v);
 		assert(c.getValeur().getValeur()==v.getValeur());
 	}
@@ -46,7 +46,7 @@ public class TestCellule {
 	@Test
 	public void testAffecterValeurString() {
 		Cellule c = new Cellule("A1---test");
-		CellValeur<String> v = new CellValeur<String>("test valeur");
+		CellString v = new CellString("test valeur");
 		c.affecterValeur(v);
 		assert(c.getValeur().getValeur()==v.getValeur());
 	}
@@ -79,7 +79,7 @@ public class TestCellule {
 	@Test
 	public void testGetNom() {
 		Cellule c = new Cellule("A1---test");
-		assert(c.getNom().equals("A1"));
+		assert(c.getNom().getFullName().equals("A1"));
 	}
 	
 	@Test
@@ -103,7 +103,7 @@ public class TestCellule {
 	@Test
 	public void testGetValeurEntier() {
 		Cellule c = new Cellule("A1---test");
-		CellValeur<Integer> v = new CellValeur<Integer>(5);
+		CellInt v = new CellInt(5);
 		c.affecterValeur(v);
 		assert(c.getValeur().getValeur()==v.getValeur());
 	}
@@ -111,7 +111,7 @@ public class TestCellule {
 	@Test
 	public void testGetValeurDouble() {
 		Cellule c = new Cellule("A1---test");
-		CellValeur<Double> v = new CellValeur<Double>(9.18);
+		CellDouble v = new CellDouble(9.18);
 		c.affecterValeur(v);
 		assert(c.getValeur().getValeur()==v.getValeur());
 	}
@@ -119,7 +119,7 @@ public class TestCellule {
 	@Test
 	public void testGetValeurString() {
 		Cellule c = new Cellule("A1---test");
-		CellValeur<String> v = new CellValeur<String>("test get valeur");
+		CellString v = new CellString("test get valeur");
 		c.affecterValeur(v);
 		assert(c.getValeur().getValeur()==v.getValeur());
 	}

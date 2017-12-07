@@ -5,31 +5,24 @@ import org.junit.Test;
 import tableur.*;
 
 public class TestInterpreter {
-	
-	@Test
-	public void testSingleton() {
-		Interpreter i = Interpreter.getInstance();
-		Interpreter j = Interpreter.getInstance();
-		assert(i==j);
-	}
-	
+
 	@Test
 	public void testEvaluerTexte() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i = new Interpreter();
 		Cellule c = new Cellule("A1---test");
 		assert(i.evaluer(c.getContenu())==null);
 	}
 	
 	@Test
 	public void testEvaluerNombre() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---7.5");
-		assert(i.evaluer(c.getContenu()).getValeur()==(new CellValeur<Double>(7.5)).getValeur());
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==7.5);
 	}
 	
 	@Test
 	public void testEvaluerAutreCellule() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---A2");
 		Cellule c2 = new Cellule("A2---5");
 		c2.affecterValeur(i.evaluer(c2.getContenu()));
@@ -37,12 +30,12 @@ public class TestInterpreter {
 		cells.add(c);
 		cells.add(c2);
 		i.setCells(cells);
-		assert(i.evaluer(c.getContenu()).getValeur()==(new CellValeur<Integer>(5)).getValeur());
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==5);
 	}
 	
 	@Test
 	public void testEvaluerFonction() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---$max(A2,B1)");
 		Cellule c2 = new Cellule("A2---5");
 		Cellule c3 = new Cellule("B1---12");
@@ -53,12 +46,12 @@ public class TestInterpreter {
 		cells.add(c2);
 		cells.add(c3);
 		i.setCells(cells);
-		assert(i.evaluer(c.getContenu()).getValeur()==(new CellValeur<Integer>(12)).getValeur());
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==12);
 	}
 	
 	@Test
 	public void testEvaluerFonctionsEmboitees() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---$max(A2,$max(B1,B2))");
 		Cellule c2 = new Cellule("A2---5");
 		Cellule c3 = new Cellule("B1---12");
@@ -72,33 +65,33 @@ public class TestInterpreter {
 		cells.add(c3);
 		cells.add(c4);
 		i.setCells(cells);
-		assert(i.evaluer(c.getContenu()).getValeur()==(new CellValeur<Integer>(12)).getValeur());
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==12);
 	}
 	
 	@Test
 	public void testEvaluerErreurContenu() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---$max(3,5,7)");
-		assert(i.evaluer(c.getContenu()).getValeur()==(new CellValeur<String>("!ERREUR!")).getValeur());
+		assert(((String)(i.evaluer(c.getContenu()).getValeur())).equals("!ERREUR!"));
 	}
 	
 	@Test
 	public void testIsDependantePasDependante() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---7.5");
 		assert(!i.isDependante(c.getContenu(),"A2"));
 	}
 	
 	@Test
 	public void testIsDependanteDependante() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---A2");
 		assert(i.isDependante(c.getContenu(),"A2"));
 	}
 		
 	@Test
 	public void testIsDependanteDependanteEnCascade() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---A3");
 		Cellule c1 = new Cellule("A3---A2");
 		CellContainer cells = new CellContainer();
@@ -110,8 +103,8 @@ public class TestInterpreter {
 	
 	@Test
 	public void testTransformer() {
-		Interpreter i = Interpreter.getInstance();
+		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---B1");
-		assert(i.transformer(c.getContenu(),c.getNom(),"A2").equals("B2"));
+		assert(i.transformer(c.getContenu(),c.getNom().getFullName(),"A2").equals("B2"));
 	}
 }

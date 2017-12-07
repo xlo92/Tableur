@@ -4,12 +4,12 @@ public class Interpreter {
 	
 	private CellContainer cells;
 	
-	private static Interpreter interpreter = new Interpreter();;
+	public Interpreter() {
+		cells = null;
+	}
 	
-	private Interpreter() {}
-	
-	public static Interpreter getInstance() {
-		return interpreter;
+	public Interpreter(CellContainer cells) {
+		this.cells = cells;
 	}
 	
 	public CellValeur evaluer(String contenuCellule){
@@ -25,6 +25,6 @@ public class Interpreter {
 	}
 	
 	public void setCells(CellContainer cells) {
-		this.cells = cells.copy();
+		this.cells = cells;
 	}
 }

@@ -52,12 +52,12 @@ public class TestFichier {
 	}
 	
 	@Test
-	public void testMakeBackUpExiste() {
+	public void testMakeBackUp() {
 		assert(false);
 	}
 	
 	@Test
-	public void testMakeBackUpNExistePas() {
+	public void testMakeBackUpDossier() {
 		assert(false);
 	}
 }

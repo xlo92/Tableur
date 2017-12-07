@@ -30,12 +30,4 @@ public class CellContainer {
             }
             return false;
 	}
-	
-	public CellContainer copy() {
-            CellContainer newCC = new CellContainer();
-            for(Cellule c : cells){
-                newCC.cells.add(c);
-            }
-            return newCC;
-	}
 }

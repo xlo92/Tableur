@@ -8,48 +8,26 @@ public class TestCellValeur {
 
 	@Test
 	public void testgetValeurEntier() {
-		CellValeur<Integer> v = new CellValeur<Integer>(7);
-		assert(7==v.getValeur());
+		CellValeur v = new CellInt(7);
+		assert(7==(Integer)(v.getValeur()));
 	}
 	
 	@Test
 	public void testgetValeurDouble() {
-		CellValeur<Double> v = new CellValeur<Double>(7.8);
-		assert(7.8==v.getValeur());
+		CellValeur v = new CellDouble(7.8);
+		assert(7.8==(Double)(v.getValeur()));
 	}
 	
 	@Test
 	public void testgetValeurString() {
-		CellValeur<String> v = new CellValeur<String>("test");
-		assert(v.getValeur().equals("test"));
-	}
-	
-	@Test
-	public void testsetValeurEntier() {
-		CellValeur<Integer> v = new CellValeur<Integer>();
-		v.setValeur(7);
-		assert(7==v.getValeur());
-	}
-	
-	@Test
-	public void testsetValeurDouble() {
-		CellValeur<Double> v = new CellValeur<Double>();
-		v.setValeur(7.8);
-		assert(7.8==v.getValeur());
-	}
-	
-	@Test
-	public void testsetValeurString() {
-		CellValeur<String> v = new CellValeur<String>();
-		v.setValeur("test");
-		assert(v.getValeur().equals("test"));
+		CellValeur v = new CellString("test");
+		assert(((String)(v.getValeur())).equals("test"));
 	}
 	
 	@Test
 	public void testCopy() {
-		CellValeur<Integer> v = new CellValeur<Integer>();
-		v.setValeur(42);
-		CellValeur<Integer> c = v.copy();
-		assert(v.getValeur()==c.getValeur() && v!=c);
+		CellValeur v = new CellInt(42);
+		CellValeur c = v.copy();
+		assert((Integer)(v.getValeur())==(Integer)(c.getValeur()) && v!=c);
 	}
 }
