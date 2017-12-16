@@ -18,6 +18,10 @@ public class CellContainer {
             return null;
 	}
 	
+    public ArrayList<Cellule> getCellList(){
+        return this.cells;
+    }
+	
 	public void majDependantes(String uneCellule) {
 		Interpreter i = new Interpreter(this);
 		Cellule b = getCellule(uneCellule);

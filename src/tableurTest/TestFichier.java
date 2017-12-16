@@ -5,11 +5,6 @@ import org.junit.Test;
 import tableur.*;
 
 public class TestFichier {
-
-	@Test
-	public void testEcrireCell() {
-		assert(false);
-	}
 	
 	@Test
 	public void testEcrireFichierExisteDeja() {
@@ -28,16 +23,6 @@ public class TestFichier {
 	
 	@Test
 	public void testIsOnDiskVrai() {
-		assert(false);
-	}
-	
-	@Test
-	public void testlireCellFichierVide() {
-		assert(false);
-	}
-	
-	@Test
-	public void testlireCell() {
 		assert(false);
 	}
 	
