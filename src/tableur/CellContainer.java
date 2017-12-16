@@ -23,7 +23,7 @@ public class CellContainer {
 		Cellule b = getCellule(uneCellule);
 		if(b==null) return;
 		for(Cellule c : cells){
-            if(i.isDependante(b.getContenu(), c.getNom().getFullName())){
+            if(i.isDependante(c.getContenu(), uneCellule)){
             	c.affecterValeur(i.evaluer(c.getContenu()));
             	majDependantes(c.getNom().getFullName());
             }

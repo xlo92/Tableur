@@ -38,6 +38,7 @@ public class TestCellContainer {
 		cc.add(c);
 		cc.add(c2);
 		cc.getCellule("A2").affecterValeur(new CellInt(8));
+		cc.getCellule("A1").affecterValeur(new CellInt(3));
 		cc.majDependantes("A1");
 		assert((Integer)(cc.getCellule("A2").getValeur().getValeur())==3);
 	}

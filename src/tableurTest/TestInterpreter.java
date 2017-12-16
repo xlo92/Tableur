@@ -34,6 +34,51 @@ public class TestInterpreter {
 	}
 	
 	@Test
+	public void testEvaluerAdd() {
+		Cellule c = new Cellule("A1---3+4");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==7);
+	}
+	
+	@Test
+	public void testEvaluerSou() {
+		Cellule c = new Cellule("A1---3-4");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==-1);
+	}
+	
+	@Test
+	public void testEvaluerMul() {
+		Cellule c = new Cellule("A1---3*4");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==12);
+	}
+	
+	@Test
+	public void testEvaluerDiv() {
+		Cellule c = new Cellule("A1---3/4");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==0.75);
+	}
+	
+	@Test
+	public void testEvaluerOrdre() {
+		Cellule c = new Cellule("A1---8/4+5*7-2");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==35);
+	}
+	
+	@Test
 	public void testEvaluerAutreCellule() {
 		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---A2");
