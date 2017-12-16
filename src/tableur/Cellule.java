@@ -32,9 +32,9 @@ public class Cellule {
                 this.valeur = valeur.copy();
 	}
         
-        public Cellule copy(){
-            return new Cellule(getText());
-        }
+    public Cellule copy(){
+        return new Cellule(getText());
+    }
 	
 	public String getContenu() {
 		return contenu;

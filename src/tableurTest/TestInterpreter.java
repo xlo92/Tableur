@@ -193,6 +193,15 @@ public class TestInterpreter {
 	public void testTransformer() {
 		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---B1");
-		assert(i.transformer(c.getContenu(),c.getNom().getFullName(),"A2").equals("B2"));
+		Cellule c1 = new Cellule("B1---3");
+		Cellule c2 = new Cellule("A2---4");
+		Cellule c3 = new Cellule("B2---7");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		cells.add(c1);
+		cells.add(c2);
+		cells.add(c3);
+		i.setCells(cells);
+		assert(i.transformer("B1","A1","A2").equals("B2"));
 	}
 }

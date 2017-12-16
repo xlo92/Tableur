@@ -384,36 +384,111 @@ public class Interpreter {
 		return l.get(0);
 	}
 	
+	private String transformer_lettres(String b, String c, String a) {
+		int bval = 0;
+		int cval = 0;
+		int aval = 0;
+		
+		int tmp;
+		
+		for(int i = 0; i<b.length();i++) {
+			bval *= 27;
+			bval += b.charAt(i) - 'A' + 1;
+		}
+		
+		for(int i = 0; i<c.length();i++) {
+			cval *= 27;
+			cval += c.charAt(i) - 'A' + 1;
+		}
+		
+		for(int i = 0; i<a.length();i++) {
+			aval *= 27;
+			aval += a.charAt(i) - 'A' + 1;
+		}
+		
+		tmp = cval - bval + aval;
+		
+		String res = "";
+		char l;
+		
+		while(tmp>0) {
+			if(tmp%27==0) tmp--;
+			l = (char) ('A' + tmp%27 - 1);
+			res = l+res;
+			tmp/=27;
+		}
+		
+		return res;
+	}
+	
+	private Integer transformer_chiffres(Integer b, Integer c, Integer a) {
+		int res = c - b + a;
+		if(res>0) return res;
+		return -1;
+	}
+	
 	public String transformer(String contenuCelluleB, String nomCelluleB, String nomCelluleC) {
-		return "";
+		String res = "";
+		String contenuCelluleC = "";
+		Cellule a;
+		Cellule b = cells.getCellule(nomCelluleB);
+		Cellule c = cells.getCellule(nomCelluleC);
+		if(b==null || c== null) return "";
+		for(int i=0;i<contenuCelluleB.length();i++) {
+			if(Character.isLetter(contenuCelluleB.charAt(i)) || Character.isDigit(contenuCelluleB.charAt(i))) {
+				res += contenuCelluleB.charAt(i);
+			}else {
+				if((a=cells.getCellule(res))!=null) {
+					
+					res = transformer_lettres(b.getNom().getLet(),c.getNom().getLet(),a.getNom().getLet());
+					res += transformer_chiffres(b.getNom().getNum(),c.getNom().getNum(),a.getNom().getNum());
+					if(cells.getCellule(res)!=null) {
+						contenuCelluleC += res;
+					}else {
+						return "";
+					}
+				}
+				res = "";
+				contenuCelluleC+=contenuCelluleB.charAt(i);
+			}
+		}
+		if((a=cells.getCellule(res))!=null) {
+			res = transformer_lettres(b.getNom().getLet(),c.getNom().getLet(),a.getNom().getLet());
+			res += transformer_chiffres(b.getNom().getNum(),c.getNom().getNum(),a.getNom().getNum());
+			if(cells.getCellule(res)!=null) {
+				contenuCelluleC += res;
+			}else {
+				return "";
+			}
+		}
+		return contenuCelluleC;
 	}
 	
 	public boolean isDependante(String contenuCelluleB, String nomCelluleC) {
-		if(cells!=null) {
-			String[] res;
-			Cellule c;
-			boolean flag = true;
-			while(flag) {
-				res = contenuCelluleB.split("(?<=\\D)(?=\\d)");
-				if(res.length==2) {
-					c = cells.getCellule(res[0]+res[1]);
-					if(c!=null) {
-						if(c.getNom().getFullName().equals(nomCelluleC)) {
-							return true;
-						}else {
-							if(isDependante(c.getContenu(),nomCelluleC)) {
-								return true;
-							}
-						}
-					}
-					if(res[0].length()+res[1].length() < contenuCelluleB.length()) {
-						contenuCelluleB = contenuCelluleB.substring(res[0].length()+res[1].length());
-					}else {
-						return false;
-					}
+		String res = "";
+		Cellule c;
+		for(int i=0;i<contenuCelluleB.length();i++) {
+			if(Character.isLetter(contenuCelluleB.charAt(i)) || Character.isDigit(contenuCelluleB.charAt(i))) {
+				res += contenuCelluleB.charAt(i);
+			}else {
+				if(res.equals(nomCelluleC)) {
+					return true;
 				}else {
-					flag=false;
+					if((c=cells.getCellule(res))!=null) {
+						if(isDependante(c.getContenu(),nomCelluleC)) return true;
+					}else {
+						res = "";
+					}
 				}
+			}
+		}
+		if(res.equals(nomCelluleC)) {
+			return true;
+		}else {
+			if((c=cells.getCellule(res))!=null) {
+				if(isDependante(c.getContenu(),nomCelluleC)) return true;
+			}else {
+				res = "";
 			}
 		}
 		return false;
