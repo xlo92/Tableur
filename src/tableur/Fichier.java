@@ -32,7 +32,7 @@ public class Fichier {
             PrintWriter writer = new PrintWriter(filename.getName(), "UTF-8");
         
             for(Cellule c : cells.getCellList()){
-                writer.println(c.getNom() +"---"+ c.getContenu());
+            	writer.println(c.getNom() +"---"+ c.getContenu() +"---"+ c.getValeur().getValeur());
             }
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException ex) {
