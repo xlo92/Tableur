@@ -34,10 +34,10 @@ public class TestCellContainer {
 	public void testMajDependantes() {
 		Cellule c = new Cellule("A1---3");
 		Cellule c2 = new Cellule("A2---A1");
-		c2.affecterValeur(new CellInt(8));
 		CellContainer cc = new CellContainer();
 		cc.add(c);
 		cc.add(c2);
+		cc.getCellule("A2").affecterValeur(new CellInt(8));
 		cc.majDependantes("A1");
 		assert((Integer)(cc.getCellule("A2").getValeur().getValeur())==3);
 	}

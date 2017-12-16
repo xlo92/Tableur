@@ -38,10 +38,23 @@ public class TestInterpreter {
 		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---A2");
 		Cellule c2 = new Cellule("A2---5");
-		c2.affecterValeur(i.evaluer(c2.getContenu()));
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		cells.add(c2);
+		cells.getCellule("A2").affecterValeur(i.evaluer("5"));
+		i.setCells(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==5);
+	}
+	
+	@Test
+	public void testEvaluerParenthese() {
+		Interpreter i =  new Interpreter();
+		Cellule c = new Cellule("A1---(A2)");
+		Cellule c2 = new Cellule("A2---5");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		cells.add(c2);
+		cells.getCellule("A2").affecterValeur(i.evaluer("5"));
 		i.setCells(cells);
 		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==5);
 	}
@@ -52,39 +65,46 @@ public class TestInterpreter {
 		Cellule c = new Cellule("A1---$max(A2,B1)");
 		Cellule c2 = new Cellule("A2---5");
 		Cellule c3 = new Cellule("B1---12");
-		c2.affecterValeur(i.evaluer(c2.getContenu()));
-		c3.affecterValeur(i.evaluer(c3.getContenu()));
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		cells.add(c2);
 		cells.add(c3);
 		i.setCells(cells);
+		cells.getCellule("A2").affecterValeur(i.evaluer("5"));
+		cells.getCellule("B1").affecterValeur(i.evaluer("12"));
 		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==12);
 	}
 	
 	@Test
 	public void testEvaluerFonctionsEmboitees() {
 		Interpreter i =  new Interpreter();
-		Cellule c = new Cellule("A1---$max(A2,$max(B1,B2))");
+		Cellule c = new Cellule("A1---$max(A2,$min(B1,B2))");
 		Cellule c2 = new Cellule("A2---5");
 		Cellule c3 = new Cellule("B1---12");
 		Cellule c4 = new Cellule("B2---7");
-		c2.affecterValeur(i.evaluer(c2.getContenu()));
-		c3.affecterValeur(i.evaluer(c3.getContenu()));
-		c4.affecterValeur(i.evaluer(c4.getContenu()));
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		cells.add(c2);
 		cells.add(c3);
 		cells.add(c4);
 		i.setCells(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==12);
+		cells.getCellule("A2").affecterValeur(i.evaluer("5"));
+		cells.getCellule("B2").affecterValeur(i.evaluer("7"));
+		cells.getCellule("B1").affecterValeur(i.evaluer("12"));
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==7);
 	}
 	
 	@Test
-	public void testEvaluerErreurContenu() {
+	public void testEvaluerErreurFonction() {
 		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---$max(3,5,7)");
+		assert(((String)(i.evaluer(c.getContenu()).getValeur())).equals("!ERREUR!"));
+	}
+	
+	@Test
+	public void testEvaluerErreurTexte() {
+		Interpreter i =  new Interpreter();
+		Cellule c = new Cellule("A1---&3");
 		assert(((String)(i.evaluer(c.getContenu()).getValeur())).equals("!ERREUR!"));
 	}
 	
