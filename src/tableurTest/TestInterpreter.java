@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import tableur.*;
 
+import java.lang.Math;
+
 public class TestInterpreter {
 
 	@Test
@@ -31,6 +33,213 @@ public class TestInterpreter {
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
 		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==3);
+	}
+	
+	@Test
+	public void testFonction_min() {
+		Cellule c = new Cellule("A1---$min(5,7)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==5);
+	}
+	
+	@Test
+	public void testFonction_max() {
+		Cellule c = new Cellule("A1---$max(5,7)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==7);
+	}
+	
+	@Test
+	public void testFonction_add() {
+		Cellule c = new Cellule("A1---$add(5,7)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==12);
+	}
+	
+	@Test
+	public void testFonction_sou() {
+		Cellule c = new Cellule("A1---$sou(5,7)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==-2);
+	}
+	
+	@Test
+	public void testFonction_mul() {
+		Cellule c = new Cellule("A1---$mul(5,7)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==35);
+	}
+	
+	@Test
+	public void testFonction_div() {
+		Cellule c = new Cellule("A1---$div(5,7)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==5.0/7.0);
+	}
+	
+	@Test
+	public void testFonction_PI() {
+		Cellule c = new Cellule("A1---$PI()");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.PI);
+	}
+	
+	@Test
+	public void testFonction_E() {
+		Cellule c = new Cellule("A1---$E()");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.E);
+	}
+
+	@Test
+	public void testFonction_rond() {
+		Cellule c = new Cellule("A1---$rond(7.5)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==8);
+	}
+	
+	@Test
+	public void testFonction_abs() {
+		Cellule c = new Cellule("A1---$abs(-5)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==5);
+	}
+	
+	@Test
+	public void testFonction_acos() {
+		Cellule c = new Cellule("A1---$acos(1)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.acos(1));
+	}
+	
+	@Test
+	public void testFonction_asin() {
+		Cellule c = new Cellule("A1---$asin(1)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.asin(1));
+	}
+	
+	@Test
+	public void testFonction_atan() {
+		Cellule c = new Cellule("A1---$atan(1)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.atan(1));
+	}
+	
+	@Test
+	public void testFonction_cos() {
+		Cellule c = new Cellule("A1---$cos($PI())");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.cos(java.lang.Math.PI));
+	}
+	
+	@Test
+	public void testFonction_sin() {
+		Cellule c = new Cellule("A1---$sin($PI())");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.sin(java.lang.Math.PI));
+	}
+	
+	@Test
+	public void testFonction_tan() {
+		Cellule c = new Cellule("A1---$tan($PI())");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.tan(java.lang.Math.PI));
+	}
+	
+	@Test
+	public void testFonction_exp() {
+		Cellule c = new Cellule("A1---$exp(2)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.exp(2));
+	}
+	
+	@Test
+	public void testFonction_ln() {
+		Cellule c = new Cellule("A1---$ln($exp(2))");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==2);
+	}
+	
+	@Test
+	public void testFonction_log() {
+		Cellule c = new Cellule("A1---$log(100.00)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==2);
+	}
+	
+	@Test
+	public void testFonction_pow() {
+		Cellule c = new Cellule("A1---$pow(2.0,3.0)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==8);
+	}
+	
+	@Test
+	public void testFonction_ent() {
+		Cellule c = new Cellule("A1---$ent(3.2)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==3);
+	}
+	
+	@Test
+	public void testFonction_sqrt() {
+		Cellule c = new Cellule("A1---$sqrt(64)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==8);
+	}
+	
+	@Test
+	public void testFonction_cbrt() {
+		Cellule c = new Cellule("A1---$cbrt(-64)");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		Interpreter i =  new Interpreter(cells);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==-4);
 	}
 	
 	@Test
@@ -71,11 +280,11 @@ public class TestInterpreter {
 	
 	@Test
 	public void testEvaluerOrdre() {
-		Cellule c = new Cellule("A1---8/4+5*7-2");
+		Cellule c = new Cellule("A1---8/4+5*7--2");
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==35);
+		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==39);
 	}
 	
 	@Test

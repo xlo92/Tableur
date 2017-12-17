@@ -18,6 +18,18 @@ public class Interpreter {
 	
 	private CellValeur evaluer_num(String contenuCellule, MutableInt p) {
 		String res = "";
+		boolean signe;
+		if(contenuCellule.charAt(p.intValue())=='+') {
+			signe = false;
+			p.add(1);
+		}else {
+			if(contenuCellule.charAt(p.intValue())=='-') {
+				signe = true;
+				p.add(1);
+			}else {
+				signe = false;
+			}
+		}
 		for(int i = p.intValue();i<contenuCellule.length();i++) {
 			if(Character.isDigit(contenuCellule.charAt(i))) {
 				p.add(1);
@@ -40,7 +52,15 @@ public class Interpreter {
 		}
 		Double d = Double.valueOf(res);
 		int i = d.intValue();
-		if(d==i) return new CellInt(i);
+		if(d==i) {
+			if(signe) {
+				return new CellInt(-i);
+			}
+			return new CellInt(i);
+		}
+		if(signe) {
+			return new CellDouble(-d);
+		}
 		return new CellDouble(d);
 	}
 	
@@ -167,6 +187,279 @@ public class Interpreter {
 		}
 	}
 	
+	private CellValeur evaluer_fct_PI() {
+		return new CellDouble(java.lang.Math.PI);
+	}
+	
+	private CellValeur evaluer_fct_E() {
+		return new CellDouble(java.lang.Math.E);
+	}
+	
+	private CellValeur evaluer_fct_rand() {
+		return new CellDouble(java.lang.Math.random());
+	}
+	
+	private CellValeur evaluer_fct_rand(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			Double d = java.lang.Math.random()*((Integer)(param.getValeur())).doubleValue();
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}else {
+			Double d = java.lang.Math.random()*((Double)(param.getValeur())).doubleValue();
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}
+	}
+	
+	private CellValeur evaluer_fct_rand(CellValeur param1, CellValeur param2) {
+		if(param1 == null || param1.getValeur().getClass()==String.class || param2 == null || param2.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param1.getValeur().getClass()==Integer.class) {
+			if(param2.getValeur().getClass()==Integer.class) {
+				Double d = java.lang.Math.random()*(((Integer)(param2.getValeur())).doubleValue()-((Integer)(param1.getValeur())).doubleValue())+((Integer)(param1.getValeur())).doubleValue();
+				int i = d.intValue();
+				if(d==i) {
+					return new CellInt(i);
+				}
+				return new CellDouble(d);
+			}else {
+				Double d = java.lang.Math.random()*(((Double)(param2.getValeur())).doubleValue()-((Integer)(param1.getValeur())).doubleValue())+((Integer)(param1.getValeur())).doubleValue();
+				int i = d.intValue();
+				if(d==i) {
+					return new CellInt(i);
+				}
+				return new CellDouble(d);
+			}
+		}else {
+			if(param1.getValeur().getClass()==Integer.class) {
+				Double d = java.lang.Math.random()*(((Integer)(param2.getValeur())).doubleValue()-((Double)(param1.getValeur())).doubleValue())+((Double)(param1.getValeur())).doubleValue();
+				int i = d.intValue();
+				if(d==i) {
+					return new CellInt(i);
+				}
+				return new CellDouble(d);
+			}else {
+				Double d = java.lang.Math.random()*(((Double)(param2.getValeur())).doubleValue()-((Double)(param1.getValeur())).doubleValue())+((Double)(param1.getValeur())).doubleValue();
+				int i = d.intValue();
+				if(d==i) {
+					return new CellInt(i);
+				}
+				return new CellDouble(d);
+			}
+		}
+	}
+	
+	private CellValeur evaluer_fct_rond(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			return param;
+		}else {
+			return new CellInt((int)(java.lang.Math.round((Double)(param.getValeur()))));
+		}
+	}
+	
+	private CellValeur evaluer_fct_abs(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			return new CellInt(java.lang.Math.abs((Integer)(param.getValeur())));
+		}else {
+			return new CellDouble(java.lang.Math.abs((Double)(param.getValeur())));
+		}
+	}
+	
+	private CellValeur evaluer_fct_acos(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			if(((Integer)(param.getValeur())).doubleValue()>1 || ((Integer)(param.getValeur())).doubleValue() <-1) return new CellString("!ERREUR!");
+			return new CellDouble(java.lang.Math.acos(((Integer)(param.getValeur())).doubleValue()));
+		}else {
+			if(((Double)(param.getValeur())).doubleValue()>1 || ((Double)(param.getValeur())).doubleValue() <-1) return new CellString("!ERREUR!");
+			return new CellDouble(java.lang.Math.acos((Double)(param.getValeur())));
+		}
+	}
+	
+	private CellValeur evaluer_fct_asin(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			if(((Integer)(param.getValeur())).doubleValue()>1 || ((Integer)(param.getValeur())).doubleValue() <-1) return new CellString("!ERREUR!");
+			return new CellDouble(java.lang.Math.asin(((Integer)(param.getValeur())).doubleValue()));
+		}else {
+			if(((Double)(param.getValeur())).doubleValue()>1 || ((Double)(param.getValeur())).doubleValue() <-1) return new CellString("!ERREUR!");
+			return new CellDouble(java.lang.Math.asin((Double)(param.getValeur())));
+		}
+	}
+	
+	private CellValeur evaluer_fct_atan(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			return new CellDouble(java.lang.Math.atan(((Integer)(param.getValeur())).doubleValue()));
+		}else {
+			return new CellDouble(java.lang.Math.atan((Double)(param.getValeur())));
+		}
+	}
+	
+	private CellValeur evaluer_fct_cos(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			return new CellDouble(java.lang.Math.cos(((Integer)(param.getValeur())).doubleValue()));
+		}else {
+			return new CellDouble(java.lang.Math.cos((Double)(param.getValeur())));
+		}
+	}
+	
+	private CellValeur evaluer_fct_sin(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			return new CellDouble(java.lang.Math.sin(((Integer)(param.getValeur())).doubleValue()));
+		}else {
+			return new CellDouble(java.lang.Math.sin((Double)(param.getValeur())));
+		}
+	}
+	
+	private CellValeur evaluer_fct_tan(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			return new CellDouble(java.lang.Math.tan(((Integer)(param.getValeur())).doubleValue()));
+		}else {
+			return new CellDouble(java.lang.Math.tan((Double)(param.getValeur())));
+		}
+	}
+	
+	private CellValeur evaluer_fct_exp(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			Double d = java.lang.Math.exp(((Integer)(param.getValeur())).doubleValue());
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}else {
+			Double d = java.lang.Math.exp(((Double)(param.getValeur())));
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}
+	}
+	
+	private CellValeur evaluer_fct_ln(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			if(((Integer)(param.getValeur())).doubleValue()<=0) return new CellString("!ERREUR!");
+			Double d = java.lang.Math.log(((Integer)(param.getValeur())).doubleValue());
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}else {
+			if(((Double)(param.getValeur())).doubleValue()<=0) return new CellString("!ERREUR!");
+			Double d = java.lang.Math.log(((Double)(param.getValeur())));
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}
+	}
+	
+	private CellValeur evaluer_fct_log(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			if(((Integer)(param.getValeur())).doubleValue()<=0) return new CellString("!ERREUR!");
+			Double d = java.lang.Math.log10(((Integer)(param.getValeur())).doubleValue());
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}else {
+			if(((Double)(param.getValeur())).doubleValue()<=0) return new CellString("!ERREUR!");
+			Double d = java.lang.Math.log10(((Double)(param.getValeur())));
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}
+	}
+	
+	private CellValeur evaluer_fct_pow(CellValeur param1, CellValeur param2) {
+		if(param1 == null || param2 == null || param1.getValeur().getClass()==String.class || param2.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param1.getValeur().getClass()==Integer.class) {
+			if(param2.getValeur().getClass()==Integer.class) {
+				Double d = java.lang.Math.pow(((Integer)(param1.getValeur())).doubleValue(),((Integer)(param2.getValeur())).doubleValue());
+				int i = d.intValue();
+				if(d==i) return new CellInt(i);
+				return new CellDouble(d);
+			}else {
+				Double d = java.lang.Math.pow(((Integer)(param1.getValeur())).doubleValue(),((Double)(param2.getValeur())).doubleValue());
+				int i = d.intValue();
+				if(d==i) return new CellInt(i);
+				return new CellDouble(d);
+			}
+		}else {
+			if(param2.getValeur().getClass()==Integer.class) {
+				Double d = java.lang.Math.pow(((Double)(param1.getValeur())).doubleValue(),((Integer)(param2.getValeur())).doubleValue());
+				int i = d.intValue();
+				if(d==i) return new CellInt(i);
+				return new CellDouble(d);			
+			}else {
+				Double d = java.lang.Math.pow(((Double)(param1.getValeur())).doubleValue(),((Double)(param2.getValeur())).doubleValue());
+				int i = d.intValue();
+				if(d==i) return new CellInt(i);
+				return new CellDouble(d);
+			}
+		}
+	}
+	
+	private CellValeur evaluer_fct_ent(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			return new CellInt((int)(java.lang.Math.floor(((Integer)(param.getValeur())).doubleValue())));
+		}else {
+			return new CellInt((int)(java.lang.Math.floor((Double)(param.getValeur()))));
+		}
+	}
+	
+	private CellValeur evaluer_fct_sqrt(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			if(((Integer)(param.getValeur())).doubleValue()<0) return new CellString("!ERREUR!");
+			Double d = java.lang.Math.sqrt(((Integer)(param.getValeur())).doubleValue());
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}else {
+			if(((Double)(param.getValeur())).doubleValue()<0) return new CellString("!ERREUR!");
+			return new CellDouble(java.lang.Math.atan((Double)(param.getValeur())));
+		}
+	}
+	
+	private CellValeur evaluer_fct_cbrt(CellValeur param) {
+		if(param == null || param.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
+		if(param.getValeur().getClass()==Integer.class) {
+			Double d = java.lang.Math.cbrt(((Integer)(param.getValeur())).doubleValue());
+			int i = d.intValue();
+			if(d==i) {
+				return new CellInt(i);
+			}
+			return new CellDouble(d);
+		}else {
+			return new CellDouble(java.lang.Math.atan((Double)(param.getValeur())));
+		}
+	}
+	
 	private CellValeur evaluer_getParamAt(String param,int n) {
 		int nb = 0;
 		int nParam = 0;
@@ -216,6 +509,146 @@ public class Interpreter {
 			}else {
 				return new CellString("!ERREUR!");
 			}
+		case "add":
+			if(evaluer_getNbParam(param)==2) {
+				return evaluer_fct_add(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "sou":
+			if(evaluer_getNbParam(param)==2) {
+				return evaluer_fct_sou(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "mul":
+			if(evaluer_getNbParam(param)==2) {
+				return evaluer_fct_mul(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "div":
+			if(evaluer_getNbParam(param)==2) {
+				return evaluer_fct_div(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "E":
+			if(evaluer_getNbParam(param)==0) {
+				return evaluer_fct_E();
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "PI":
+			if(evaluer_getNbParam(param)==0) {
+				return evaluer_fct_PI();
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "rand":
+			if(evaluer_getNbParam(param)==0) {
+				return evaluer_fct_rand();
+			}else {
+				if(evaluer_getNbParam(param)==1) {
+					return evaluer_fct_rand(evaluer_getParamAt(param,0));
+				}else {
+					if(evaluer_getNbParam(param)==2) {
+						return evaluer_fct_rand(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+					}else {
+						return new CellString("!ERREUR!");
+					}
+				}
+			}
+		case "rond":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_rond(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "abs":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_abs(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "acos":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_acos(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "asin":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_asin(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "atan":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_atan(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "cos":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_cos(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "sin":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_sin(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "tan":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_tan(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "exp":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_exp(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "ln":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_ln(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "log":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_log(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "pow":
+			if(evaluer_getNbParam(param)==2) {
+				return evaluer_fct_pow(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "ent":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_ent(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "sqrt":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_sqrt(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
+		case "cbrt":
+			if(evaluer_getNbParam(param)==1) {
+				return evaluer_fct_cbrt(evaluer_getParamAt(param,0));
+			}else {
+				return new CellString("!ERREUR!");
+			}
 		}
 	}
 	
@@ -259,7 +692,7 @@ public class Interpreter {
 		MutableInt p = new MutableInt();
 		CellValeur res = null;
 		int tmp = 0;
-		if(Character.isDigit(contenuCellule.charAt(p.intValue())) || contenuCellule.charAt(p.intValue())=='.') {
+		if(Character.isDigit(contenuCellule.charAt(p.intValue())) || contenuCellule.charAt(p.intValue())=='-' || contenuCellule.charAt(p.intValue())=='+') {
 			res = evaluer_num(contenuCellule,p);
 		}else {
 			if(Character.isLetter(contenuCellule.charAt(p.intValue())) || contenuCellule.charAt(p.intValue()) == '_') {
@@ -297,7 +730,7 @@ public class Interpreter {
 			}
 			p.add(1);
 			if(p.intValue()<contenuCellule.length()) {
-				if(Character.isDigit(contenuCellule.charAt(p.intValue())) || contenuCellule.charAt(p.intValue())=='.') {
+				if(Character.isDigit(contenuCellule.charAt(p.intValue())) || contenuCellule.charAt(p.intValue())=='-' || contenuCellule.charAt(p.intValue())=='+') {
 					res = evaluer_num(contenuCellule,p);
 				}else {
 					if(Character.isLetter(contenuCellule.charAt(p.intValue())) || contenuCellule.charAt(p.intValue()) == '_') {
