@@ -4,8 +4,6 @@ import org.junit.Test;
 
 import tableur.*;
 
-import java.lang.Math;
-
 public class TestInterpreter {
 
 	@Test
@@ -382,6 +380,22 @@ public class TestInterpreter {
 		cells.add(c1);
 		i.setCells(cells);
 		assert(i.isDependante(c.getContenu(),"A2"));
+	}
+	
+	@Test
+	public void testIsDependanteDependante2() {
+		Interpreter i =  new Interpreter();
+		Cellule c = new Cellule("A1---A2+A3+$abs(A4)");
+		Cellule c1 = new Cellule("A2---3");
+		Cellule c2 = new Cellule("A3---5");
+		Cellule c3 = new Cellule("A4---8");
+		CellContainer cells = new CellContainer();
+		cells.add(c);
+		cells.add(c1);
+		cells.add(c2);
+		cells.add(c3);
+		i.setCells(cells);
+		assert(i.isDependante(c.getContenu(),"A2") && i.isDependante(c.getContenu(),"A3") && i.isDependante(c.getContenu(),"A4"));
 	}
 		
 	@Test

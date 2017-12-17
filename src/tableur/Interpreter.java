@@ -845,7 +845,8 @@ public class Interpreter {
 		char l;
 		
 		while(tmp>0) {
-			if(tmp%27==0) tmp--;
+			if(tmp%27==0 && cval - bval <0) tmp--;
+			if(tmp%27==0 && cval - bval >0) tmp++;
 			l = (char) ('A' + tmp%27 - 1);
 			res = l+res;
 			tmp/=27;
@@ -909,6 +910,7 @@ public class Interpreter {
 				}else {
 					if((c=cells.getCellule(res))!=null) {
 						if(isDependante(c.getContenu(),nomCelluleC)) return true;
+						res="";
 					}else {
 						res = "";
 					}

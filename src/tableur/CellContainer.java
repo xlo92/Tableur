@@ -41,4 +41,12 @@ public class CellContainer {
             }
             return false;
 	}
+	
+	public boolean add(int i,Cellule uneCellule) {
+        if(uneCellule != null){
+            this.cells.add(i,uneCellule.copy());
+            return true;
+        }
+        return false;
+}
 }

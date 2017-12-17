@@ -10,8 +10,13 @@ public class Cellule {
 	
 	public Cellule(String cellText) {
             String[] elem = cellText.split("---");
-            nom = new CellName(elem[0]);
-            contenu = elem[1];
+            if(elem.length==2 || elem.length==3) {
+            	nom = new CellName(elem[0]);
+            	contenu = elem[1];
+            }else {
+            	nom = new CellName(cellText.substring(0, cellText.length()-3));
+            	contenu = "";
+            }
             valeur = null;
 	}
 	
@@ -33,7 +38,9 @@ public class Cellule {
 	}
         
     public Cellule copy(){
-        return new Cellule(getText());
+        Cellule c = new Cellule(getText());
+        if(valeur!=null) c.affecterValeur(valeur);
+        return c;
     }
 	
 	public String getContenu() {

@@ -42,4 +42,25 @@ public class TestCellContainer {
 		cc.majDependantes("A1");
 		assert((Integer)(cc.getCellule("A2").getValeur().getValeur())==3);
 	}
+	@Test
+	public void testMajDependantes2() {
+		Cellule c = new Cellule("A1---");
+		Cellule c2 = new Cellule("A2---");
+		Cellule c3 = new Cellule("A3---");
+		CellContainer cc = new CellContainer();
+		cc.add(c);
+		cc.add(c2);
+		cc.add(c3);
+		cc.getCellule("A1").affecterContenu("A2+A3");
+		Interpreter i = new Interpreter(cc);
+		cc.getCellule("A1").affecterValeur(i.evaluer("A2+A3"));
+		cc.majDependantes("A1");
+		cc.getCellule("A2").affecterContenu("10");
+		cc.getCellule("A2").affecterValeur(i.evaluer("10"));
+		cc.majDependantes("A2");
+		cc.getCellule("A3").affecterContenu("5");
+		cc.getCellule("A3").affecterValeur(i.evaluer("5"));
+		cc.majDependantes("A3");
+		assert((Integer)(cc.getCellule("A1").getValeur().getValeur())==15);
+	}
 }

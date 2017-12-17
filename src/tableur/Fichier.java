@@ -32,7 +32,8 @@ public class Fichier {
             PrintWriter writer = new PrintWriter(filename.getName(), "UTF-8");
         
             for(Cellule c : cells.getCellList()){
-            	writer.println(c.getNom() +"---"+ c.getContenu() +"---"+ c.getValeur().getValeur());
+            	if(c.getValeur()!=null) writer.println(c.getNom().getFullName() +"---"+ c.getContenu() +"---"+ c.getValeur().getValeur());
+            	else writer.println(c.getNom().getFullName() +"---"+ c.getContenu());
             }
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException ex) {
@@ -42,7 +43,7 @@ public class Fichier {
 	}
 	
 	public boolean IsOnDisk(){
-            if(filename.exists()){
+            if(filename.exists() && !filename.isDirectory()){
                 return true;
             }
             return false;
@@ -63,24 +64,28 @@ public class Fichier {
                  while((line = br.readLine()) != null){
                      Cellule c = new Cellule(line);
                      String[] splittedLine = line.split("---");
-                     String value = splittedLine[2];
-                     
-                     try{
-                         int i = Integer.parseInt(value);
-                         CellInt ci = new CellInt(i);
-                         c.affecterValeur(ci);
-                     }catch(NumberFormatException nfe){
-                         try{
-                             Double d = Double.parseDouble(value);
-                             CellDouble cd = new CellDouble(d);
-                             c.affecterValeur(cd);
-                         }catch(NumberFormatException nfe2){
-                             CellString cs = new CellString(value);
-                             c.affecterValeur(cs);
-                         }
-                     }finally{
-                         cellList.add(c);
-                     }       
+                     if(splittedLine.length==3) {
+	                     String value = splittedLine[2];
+	                     
+	                     try{
+	                         int i = Integer.parseInt(value);
+	                         CellInt ci = new CellInt(i);
+	                         c.affecterValeur(ci);
+	                     }catch(Exception e){
+	                         try{
+	                             Double d = Double.parseDouble(value);
+	                             CellDouble cd = new CellDouble(d);
+	                             c.affecterValeur(cd);
+	                         }catch(Exception e2){
+	                             CellString cs = new CellString(value);
+	                             c.affecterValeur(cs);
+	                         }
+	                     }finally{
+	                         cellList.add(c);
+	                     }
+                     }else {
+                    	 cellList.add(c);
+                     }
                  }
              } catch (IOException ex) {
                  Logger.getLogger(Fichier.class.getName()).log(Level.SEVERE, null, ex);
