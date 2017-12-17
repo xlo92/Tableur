@@ -87,6 +87,8 @@ public class Fichier {
                     	 cellList.add(c);
                      }
                  }
+                 fr.close();
+                 br.close();
              } catch (IOException ex) {
                  Logger.getLogger(Fichier.class.getName()).log(Level.SEVERE, null, ex);
              }             

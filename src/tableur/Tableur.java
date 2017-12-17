@@ -44,25 +44,35 @@ public class Tableur {
         }
 	}
 
-	public void modifierDonnee(String idCell, String data) {
+	public Boolean modifierDonnee(String idCell, String data) {
         Cellule c = this.cells.getCellule(idCell);
         if(c!=null) {
-        	c.affecterContenu(data);
         	Interpreter i = new Interpreter(cells);
-        	c.affecterValeur(i.evaluer(data));
-        	cells.majDependantes(idCell);
+        	if(!i.isDependante(data, idCell)) {
+	        	c.affecterContenu(data);
+	        	c.affecterValeur(i.evaluer(data));
+	        	cells.majDependantes(idCell);
+	        	return true;
+        	}
+        	return false;
         }
+        return null;
 	}
 	
-	public void propagerDonnee(String idBase, String idCible) {
+	public Boolean propagerDonnee(String idBase, String idCible) {
 		Cellule b = this.cells.getCellule(idBase);
 		Cellule c = this.cells.getCellule(idCible);
 		if(b!=null && c!=null) {
 			Interpreter i = new Interpreter(cells);
-			c.affecterContenu(i.transformer(b.getContenu(), idBase, idCible));
-			c.affecterValeur(i.evaluer(c.getContenu()));
-			cells.majDependantes(idCible);
+			String data = i.transformer(b.getContenu(), idBase, idCible);
+			if(!i.isDependante(data, idCible)) {
+				c.affecterContenu(data);
+				c.affecterValeur(i.evaluer(data));
+				cells.majDependantes(idCible);
+			}
+			return false;
 		}
+		return null;
 	}
 	
 	public String getInfosCellule(String idCell) {

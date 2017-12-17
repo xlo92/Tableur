@@ -34,7 +34,8 @@ public class Cellule {
 	}
 	
 	public void affecterValeur(CellValeur valeur) {
-                this.valeur = valeur.copy();
+                if(valeur!=null) this.valeur = valeur.copy();
+                else this.valeur=null;
 	}
         
     public Cellule copy(){

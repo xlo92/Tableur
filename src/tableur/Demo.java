@@ -11,6 +11,7 @@ public class Demo {
 		Scanner scan = new Scanner(System.in);
 		String entry;
 		String tampon;
+		Boolean bool;
 		do {
 			System.out.println("Que voulez-vous faire?");
 			System.out.println("1 -> Ouvrir un fichier");
@@ -37,6 +38,7 @@ public class Demo {
 				}
 				break;
 			case "2":
+				filename="";
 				t = new Tableur();
 				break;
 			case "3":
@@ -47,6 +49,7 @@ public class Demo {
 					System.out.println("");
 				}
 				entry = scan.next();
+				filename = entry;
 				t.enregistrer(entry);
 				break;
 			case "4":
@@ -59,14 +62,18 @@ public class Demo {
 				tampon = scan.next();
 				System.out.println("Entrez le contenu à lui donner");
 				entry = scan.next();
-				t.modifierDonnee(tampon, entry);
+				if((bool = t.modifierDonnee(tampon, entry))!=null && bool==false) {
+					System.out.println("Tentative de création de cycle... Modification annulée");
+				}
 				break;
 			case "6":
 				System.out.println("Entrez le nom de la cellule à propager");
 				tampon = scan.next();
 				System.out.println("Entrez le nom de la cellule cible");
 				entry = scan.next();
-				t.propagerDonnee(tampon, entry);
+				if((bool = t.propagerDonnee(tampon, entry))!=null && bool==false) {
+					System.out.println("Tentative de création de cycle... Modification annulée");
+				}
 				break;
 			case "7":
 				System.out.println("Entrez le nom de la cellule");

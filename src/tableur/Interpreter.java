@@ -76,7 +76,8 @@ public class Interpreter {
 			}
 		}
 		if((c=cells.getCellule(res))!=null) {
-			return c.getValeur();
+			if(c.getValeur()!=null) return c.getValeur();
+			return new CellString("!ERREUR!");
 		}else {
 			return null;
 		}
