@@ -8,6 +8,8 @@ public class Interpreter {
 	
 	private CellContainer cells;
 	
+	private String cellId;
+	
 	public Interpreter() {
 		cells = null;
 	}
@@ -83,6 +85,33 @@ public class Interpreter {
 		}
 	}
 	
+	private CellValeur evaluer_fct_cell(CellValeur param1, CellValeur param2) {
+		if(param1 == null || param2 == null || param1.getValeur().getClass()!=Integer.class || param2.getValeur().getClass()!=Integer.class) return new CellString("!ERREUR!");
+		CellName cn = new CellName(cellId);
+		int val = 0;
+		for(int i = 0; i<cn.getLet().length();i++) {
+			val *= 27;
+			val += cn.getLet().charAt(i) - 'A' + 1;
+		}
+
+		val += (Integer)param1.getValeur();
+		
+		String res = "";
+		char l;
+		
+		while(val>0) {
+			if(val%27==0 && 0>(Integer)param1.getValeur()) val--;
+			if(val%27==0 && 0<(Integer)param1.getValeur()) val++;
+			l = (char) ('A' + val%27 - 1);
+			res = l+res;
+			val/=27;
+		}
+		int nb = cn.getNum()+(Integer)param2.getValeur();
+		Cellule c;
+		if((c=cells.getCellule(res+nb))!=null && c.getValeur()!=null) return c.getValeur();
+		return new CellString("!ERREUR!");
+	}
+	
 	private CellValeur evaluer_fct_min(CellValeur param1, CellValeur param2) {
 		double lval, rval;
 		if(param1 == null || param2 == null || param1.getValeur().getClass()==String.class || param2.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
@@ -98,6 +127,63 @@ public class Interpreter {
 		}
 		if(lval <= rval) return param1;
 		return param2;
+	}
+	
+	private CellValeur evaluer_fct_min(String param) {
+		String[] cs = param.split(":");
+		Cellule c1 = cells.getCellule(cs[0]);
+		Cellule c2 = cells.getCellule(cs[1]);
+		int baseNum = java.lang.Math.min(c1.getNom().getNum(), c2.getNom().getNum());
+		int maxNum = java.lang.Math.max(c1.getNom().getNum(),c2.getNom().getNum());
+		int lval1 = 0;
+		for(int i = 0; i<c1.getNom().getLet().length();i++) {
+			lval1 *= 27;
+			lval1 += c1.getNom().getLet().charAt(i) - 'A' + 1;
+		}
+		int lval2 = 0;
+		for(int i = 0; i<c2.getNom().getLet().length();i++) {
+			lval2 *= 27;
+			lval2 += c2.getNom().getLet().charAt(i) - 'A' + 1;
+		}
+		int baseLet = java.lang.Math.min(lval1,lval2);
+		int maxLet = java.lang.Math.max(lval1,lval2);
+		CellValeur res = null;
+		CellValeur tmp;
+		int lval;
+		String let;
+		char l;
+		for(int j=baseLet;j<=maxLet;j++) {
+			lval = j;
+			let="";
+			while(lval>0) {
+				if(!(lval%27 == 0)) {
+					l = (char) ('A' + lval%27 - 1);
+					let = l+let;
+					lval/=27;
+				}else {
+					let="";
+					break;
+				}
+			}
+			if(!let.equals("")) {
+				for(int i=baseNum;i<=maxNum;i++) {
+					if((tmp=cells.getCellule(let+i).getValeur())!=null) {
+						if(res!=null) {
+							tmp = evaluer_fct_min(res,tmp);
+							if(!(tmp.getValeur().getClass()==String.class)) {
+								res = tmp;
+							}
+						}else {
+							if(!(tmp.getValeur().getClass()==String.class)) {
+								res = tmp;
+							}
+						}
+					}
+				}
+			}
+		}
+		if(res==null) return new CellString("!ERREUR!");
+		return res;
 	}
 	
 	private CellValeur evaluer_fct_max(CellValeur param1, CellValeur param2) {
@@ -117,6 +203,63 @@ public class Interpreter {
 		return param2;
 	}
 	
+	private CellValeur evaluer_fct_max(String param) {
+		String[] cs = param.split(":");
+		Cellule c1 = cells.getCellule(cs[0]);
+		Cellule c2 = cells.getCellule(cs[1]);
+		int baseNum = java.lang.Math.min(c1.getNom().getNum(), c2.getNom().getNum());
+		int maxNum = java.lang.Math.max(c1.getNom().getNum(),c2.getNom().getNum());
+		int lval1 = 0;
+		for(int i = 0; i<c1.getNom().getLet().length();i++) {
+			lval1 *= 27;
+			lval1 += c1.getNom().getLet().charAt(i) - 'A' + 1;
+		}
+		int lval2 = 0;
+		for(int i = 0; i<c2.getNom().getLet().length();i++) {
+			lval2 *= 27;
+			lval2 += c2.getNom().getLet().charAt(i) - 'A' + 1;
+		}
+		int baseLet = java.lang.Math.min(lval1,lval2);
+		int maxLet = java.lang.Math.max(lval1,lval2);
+		CellValeur res = null;
+		CellValeur tmp;
+		int lval;
+		String let;
+		char l;
+		for(int j=baseLet;j<=maxLet;j++) {
+			lval = j;
+			let="";
+			while(lval>0) {
+				if(!(lval%27 == 0)) {
+					l = (char) ('A' + lval%27 - 1);
+					let = l+let;
+					lval/=27;
+				}else {
+					let="";
+					break;
+				}
+			}
+			if(!let.equals("")) {
+				for(int i=baseNum;i<=maxNum;i++) {
+					if((tmp=cells.getCellule(let+i).getValeur())!=null) {
+						if(res!=null) {
+							tmp = evaluer_fct_max(res,tmp);
+							if(!(tmp.getValeur().getClass()==String.class)) {
+								res = tmp;
+							}
+						}else {
+							if(!(tmp.getValeur().getClass()==String.class)) {
+								res = tmp;
+							}
+						}
+					}
+				}
+			}
+		}
+		if(res==null) return new CellString("!ERREUR!");
+		return res;
+	}	
+	
 	private CellValeur evaluer_fct_add(CellValeur param1, CellValeur param2) {
 		if(param1 == null || param2 == null || param1.getValeur().getClass()==String.class || param2.getValeur().getClass()==String.class) return new CellString("!ERREUR!");
 		if(param1.getValeur().getClass()==Integer.class) {
@@ -132,6 +275,63 @@ public class Interpreter {
 				return new CellDouble(((Double)(param1.getValeur())).doubleValue()+((Double)(param2.getValeur())).doubleValue());
 			}
 		}
+	}
+	
+	private CellValeur evaluer_fct_add(String param) {
+		String[] cs = param.split(":");
+		Cellule c1 = cells.getCellule(cs[0]);
+		Cellule c2 = cells.getCellule(cs[1]);
+		int baseNum = java.lang.Math.min(c1.getNom().getNum(), c2.getNom().getNum());
+		int maxNum = java.lang.Math.max(c1.getNom().getNum(),c2.getNom().getNum());
+		int lval1 = 0;
+		for(int i = 0; i<c1.getNom().getLet().length();i++) {
+			lval1 *= 27;
+			lval1 += c1.getNom().getLet().charAt(i) - 'A' + 1;
+		}
+		int lval2 = 0;
+		for(int i = 0; i<c2.getNom().getLet().length();i++) {
+			lval2 *= 27;
+			lval2 += c2.getNom().getLet().charAt(i) - 'A' + 1;
+		}
+		int baseLet = java.lang.Math.min(lval1,lval2);
+		int maxLet = java.lang.Math.max(lval1,lval2);
+		CellValeur res = null;
+		CellValeur tmp;
+		int lval;
+		String let;
+		char l;
+		for(int j=baseLet;j<=maxLet;j++) {
+			lval = j;
+			let="";
+			while(lval>0) {
+				if(!(lval%27 == 0)) {
+					l = (char) ('A' + lval%27 - 1);
+					let = l+let;
+					lval/=27;
+				}else {
+					let="";
+					break;
+				}
+			}
+			if(!let.equals("")) {
+				for(int i=baseNum;i<=maxNum;i++) {
+					if((tmp=cells.getCellule(let+i).getValeur())!=null) {
+						if(res!=null) {
+							tmp = evaluer_fct_add(res,tmp);
+							if(!(tmp.getValeur().getClass()==String.class)) {
+								res = tmp;
+							}
+						}else {
+							if(!(tmp.getValeur().getClass()==String.class)) {
+								res = tmp;
+							}
+						}
+					}
+				}
+			}
+		}
+		if(res==null) return new CellString("!ERREUR!");
+		return res;
 	}
 	
 	private CellValeur evaluer_fct_sou(CellValeur param1, CellValeur param2) {
@@ -470,7 +670,7 @@ public class Interpreter {
 			if(param.charAt(i)==')') nb--;
 			if(param.charAt(i)==',' && nb==0) {
 				if(nParam==n) {
-					return evaluer(param.substring(begin, i));
+					return evaluer(cellId,param.substring(begin, i));
 				}else {
 					nParam++;
 					begin=i+1;
@@ -478,7 +678,7 @@ public class Interpreter {
 			}
 			if(nb<0) return new CellString("!ERREUR!");
 		}
-		return evaluer(param.substring(begin));
+		return evaluer(cellId,param.substring(begin));
 	}
 	
 	private int evaluer_getNbParam(String param) {
@@ -494,43 +694,91 @@ public class Interpreter {
 		return nParam;
 	}
 	
+	private boolean evaluer_isList(String param) {
+		if(param.contains(":")) {
+			String[] res = param.split(":");
+			if(res.length==2) {
+				if(cells.getCellule(res[0])!=null && cells.getCellule(res[1])!=null) return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean evaluer_paramAtIsList(String param,int n) {
+		int nb = 0;
+		int nParam = 0;
+		int begin = 0;
+		for(int i=0;i<param.length();i++) {
+			if(param.charAt(i)=='(') nb++;
+			if(param.charAt(i)==')') nb--;
+			if(param.charAt(i)==',' && nb==0) {
+				if(nParam==n) {
+					return evaluer_isList(param.substring(begin, i));
+				}else {
+					nParam++;
+					begin=i+1;
+				}
+			}
+			if(nb<0) return false;
+		}
+		return evaluer_isList(param.substring(begin));
+	}
+	
 	private CellValeur evaluer_call(String name, String param) {
 		switch(name) {
 		default:
 			return new CellString("!ERREUR!");
+		case "cell":
+			if(evaluer_getNbParam(param)==2 && !evaluer_paramAtIsList(param,0) && !evaluer_paramAtIsList(param,1)) {
+				return evaluer_fct_cell(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			}else {
+				return new CellString("!ERREUR!");
+			}
 		case "min":
-			if(evaluer_getNbParam(param)==2) {
+			if(evaluer_getNbParam(param)==2 && !evaluer_paramAtIsList(param,0) && !evaluer_paramAtIsList(param,1)) {
+				return evaluer_fct_min(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			}else {
+				if(evaluer_getNbParam(param)==1 && evaluer_paramAtIsList(param,0)) {
+					return evaluer_fct_min(param);
+				}else {
+					return new CellString("!ERREUR!");
+				}
+			}
+		case "max":
+			if(evaluer_getNbParam(param)==2 && !evaluer_paramAtIsList(param,0) && !evaluer_paramAtIsList(param,1)) {
+				return evaluer_fct_max(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			}else {
+				if(evaluer_getNbParam(param)==1 && evaluer_paramAtIsList(param,0)) {
+					return evaluer_fct_max(param);
+				}else {
+					return new CellString("!ERREUR!");
+				}
+			}
+		case "add":
+			if(evaluer_getNbParam(param)==2 && !evaluer_paramAtIsList(param,0) && !evaluer_paramAtIsList(param,1)) {
+				return evaluer_fct_add(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			}else {
+				if(evaluer_getNbParam(param)==1 && evaluer_paramAtIsList(param,0)) {
+					return evaluer_fct_add(param);
+				}else {
+					return new CellString("!ERREUR!");
+				}
+			}
+		case "sou":
+			if(evaluer_getNbParam(param)==2 && !evaluer_paramAtIsList(param,0) && !evaluer_paramAtIsList(param,1)) {
 				return evaluer_fct_min(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
 			}else {
 				return new CellString("!ERREUR!");
 			}
-		case "max":
-			if(evaluer_getNbParam(param)==2) {
-				return evaluer_fct_max(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
-			}else {
-				return new CellString("!ERREUR!");
-			}
-		case "add":
-			if(evaluer_getNbParam(param)==2) {
-				return evaluer_fct_add(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
-			}else {
-				return new CellString("!ERREUR!");
-			}
-		case "sou":
-			if(evaluer_getNbParam(param)==2) {
-				return evaluer_fct_sou(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
-			}else {
-				return new CellString("!ERREUR!");
-			}
 		case "mul":
-			if(evaluer_getNbParam(param)==2) {
-				return evaluer_fct_mul(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			if(evaluer_getNbParam(param)==2 && !evaluer_paramAtIsList(param,0) && !evaluer_paramAtIsList(param,1)) {
+				return evaluer_fct_min(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "div":
-			if(evaluer_getNbParam(param)==2) {
-				return evaluer_fct_div(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
+			if(evaluer_getNbParam(param)==2 && !evaluer_paramAtIsList(param,0) && !evaluer_paramAtIsList(param,1)) {
+				return evaluer_fct_min(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
 			}else {
 				return new CellString("!ERREUR!");
 			}
@@ -550,10 +798,10 @@ public class Interpreter {
 			if(evaluer_getNbParam(param)==0) {
 				return evaluer_fct_rand();
 			}else {
-				if(evaluer_getNbParam(param)==1) {
+				if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 					return evaluer_fct_rand(evaluer_getParamAt(param,0));
 				}else {
-					if(evaluer_getNbParam(param)==2) {
+					if(evaluer_getNbParam(param)==2 && !evaluer_paramAtIsList(param,0) && !evaluer_paramAtIsList(param,1)) {
 						return evaluer_fct_rand(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
 					}else {
 						return new CellString("!ERREUR!");
@@ -561,91 +809,91 @@ public class Interpreter {
 				}
 			}
 		case "rond":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_rond(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "abs":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_abs(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "acos":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_acos(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "asin":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_asin(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "atan":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_atan(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "cos":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_cos(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "sin":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_sin(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "tan":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_tan(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "exp":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_exp(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "ln":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_ln(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "log":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_log(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "pow":
-			if(evaluer_getNbParam(param)==2) {
+			if(evaluer_getNbParam(param)==2 && !evaluer_paramAtIsList(param,0) && !evaluer_paramAtIsList(param,1)) {
 				return evaluer_fct_pow(evaluer_getParamAt(param,0),evaluer_getParamAt(param,1));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "ent":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_ent(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "sqrt":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_sqrt(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
 			}
 		case "cbrt":
-			if(evaluer_getNbParam(param)==1) {
+			if(evaluer_getNbParam(param)==1 && !evaluer_paramAtIsList(param,0)) {
 				return evaluer_fct_cbrt(evaluer_getParamAt(param,0));
 			}else {
 				return new CellString("!ERREUR!");
@@ -688,7 +936,8 @@ public class Interpreter {
 		return -1;
 	}
 	
-	public CellValeur evaluer(String contenuCellule){
+	public CellValeur evaluer(String cellId, String contenuCellule){
+		this.cellId = cellId;
 		if(contenuCellule==null) return new CellString("!ERREUR!");
 		MutableInt p = new MutableInt();
 		CellValeur res = null;
@@ -708,7 +957,7 @@ public class Interpreter {
 						if(tmp==-1) {
 							return new CellString("!ERREUR!");
 						}else {
-							res = evaluer(contenuCellule.substring(p.intValue()+1, tmp));
+							res = evaluer(cellId,contenuCellule.substring(p.intValue()+1, tmp));
 							p.add(1+tmp-p.intValue());
 						}
 					}else {
@@ -746,7 +995,7 @@ public class Interpreter {
 								if(tmp==-1) {
 									return new CellString("!ERREUR!");
 								}else {
-									res = evaluer(contenuCellule.substring(p.intValue()+1, tmp));
+									res = evaluer(cellId,contenuCellule.substring(p.intValue()+1, tmp));
 									p.add(1+tmp-p.intValue());
 								}
 							}else {
@@ -906,29 +1155,133 @@ public class Interpreter {
 	public boolean isDependante(String contenuCelluleB, String nomCelluleC) {
 		String res = "";
 		Cellule c;
+		boolean flag = false;
 		for(int i=0;i<contenuCelluleB.length();i++) {
 			if(Character.isLetter(contenuCelluleB.charAt(i)) || Character.isDigit(contenuCelluleB.charAt(i))) {
 				res += contenuCelluleB.charAt(i);
 			}else {
-				if(res.equals(nomCelluleC)) {
-					return true;
+				if(contenuCelluleB.charAt(i)==':' && !flag) {
+					res+=contenuCelluleB.charAt(i);
+					flag=true;
 				}else {
-					if((c=cells.getCellule(res))!=null) {
-						if(isDependante(c.getContenu(),nomCelluleC)) return true;
-						res="";
+					if(res.equals(nomCelluleC)) {
+						return true;
 					}else {
-						res = "";
+						if(flag) {
+							String[] cs = res.split(":");
+							if(cs.length==2) {
+								Cellule c1 = cells.getCellule(cs[0]);
+								Cellule c2 = cells.getCellule(cs[1]);
+								if(c1!=null && c2!=null) {
+									int baseNum = java.lang.Math.min(c1.getNom().getNum(), c2.getNom().getNum());
+									int maxNum = java.lang.Math.max(c1.getNom().getNum(),c2.getNom().getNum());
+									int lval1 = 0;
+									for(int j = 0; j<c1.getNom().getLet().length();j++) {
+										lval1 *= 27;
+										lval1 += c1.getNom().getLet().charAt(j) - 'A' + 1;
+									}
+									int lval2 = 0;
+									for(int j = 0; j<c2.getNom().getLet().length();j++) {
+										lval2 *= 27;
+										lval2 += c1.getNom().getLet().charAt(j) - 'A' + 1;
+									}
+									int baseLet = java.lang.Math.min(lval1,lval2);
+									int maxLet = java.lang.Math.max(lval1,lval2);
+									int lval;
+									String let;
+									char l;
+									for(int j=baseLet;j<=maxLet;j++) {
+										lval = j;
+										let="";
+										while(lval>0) {
+											if(!(lval%27 == 0)) {
+												l = (char) ('A' + lval%27 - 1);
+												let = l+let;
+												lval/=27;
+											}else {
+												let="";
+												break;
+											}
+										}
+										if(!let.equals("")) {
+											for(int k=baseNum;k<=maxNum;k++) {
+												if((c=cells.getCellule(let+k))!=null) {
+													if(c.getNom().getFullName().equals(nomCelluleC) || isDependante(c.getContenu(),nomCelluleC)) return true;
+												}
+											}
+										}
+									}
+								}
+							}
+						}else {
+							if((c=cells.getCellule(res))!=null) {
+								if(isDependante(c.getContenu(),nomCelluleC)) return true;
+								res="";
+							}else {
+								res = "";
+							}
+						}
 					}
+					flag=false;
 				}
 			}
 		}
 		if(res.equals(nomCelluleC)) {
 			return true;
 		}else {
-			if((c=cells.getCellule(res))!=null) {
-				if(isDependante(c.getContenu(),nomCelluleC)) return true;
+			if(flag) {
+				String[] cs = res.split(":");
+				if(cs.length==2) {
+					Cellule c1 = cells.getCellule(cs[0]);
+					Cellule c2 = cells.getCellule(cs[1]);
+					if(c1!=null && c2!=null) {
+						int baseNum = java.lang.Math.min(c1.getNom().getNum(), c2.getNom().getNum());
+						int maxNum = java.lang.Math.max(c1.getNom().getNum(),c2.getNom().getNum());
+						int lval1 = 0;
+						for(int j = 0; j<c1.getNom().getLet().length();j++) {
+							lval1 *= 27;
+							lval1 += c1.getNom().getLet().charAt(j) - 'A' + 1;
+						}
+						int lval2 = 0;
+						for(int j = 0; j<c2.getNom().getLet().length();j++) {
+							lval2 *= 27;
+							lval2 += c1.getNom().getLet().charAt(j) - 'A' + 1;
+						}
+						int baseLet = java.lang.Math.min(lval1,lval2);
+						int maxLet = java.lang.Math.max(lval1,lval2);
+						int lval;
+						String let;
+						char l;
+						for(int j=baseLet;j<=maxLet;j++) {
+							lval = j;
+							let="";
+							while(lval>0) {
+								if(!(lval%27 == 0)) {
+									l = (char) ('A' + lval%27 - 1);
+									let = l+let;
+									lval/=27;
+								}else {
+									let="";
+									break;
+								}
+							}
+							if(!let.equals("")) {
+								for(int k=baseNum;k<=maxNum;k++) {
+									if((c=cells.getCellule(let+k))!=null) {
+										if(c.getNom().getFullName().equals(nomCelluleC) || isDependante(c.getContenu(),nomCelluleC)) return true;
+									}
+								}
+							}
+						}
+					}
+				}
 			}else {
-				res = "";
+				if((c=cells.getCellule(res))!=null) {
+					if(isDependante(c.getContenu(),nomCelluleC)) return true;
+					res="";
+				}else {
+					res = "";
+				}
 			}
 		}
 		return false;

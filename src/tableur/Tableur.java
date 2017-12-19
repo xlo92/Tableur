@@ -41,6 +41,53 @@ public class Tableur {
         if(c!=null) {
         	c.clear();
         	cells.majDependantes(idCell);
+        }else {
+        	String[] cs = idCell.split(":");
+			if(cs.length==2) {
+				Cellule c1 = cells.getCellule(cs[0]);
+				Cellule c2 = cells.getCellule(cs[1]);
+				if(c1!=null && c2!=null) {
+					int baseNum = java.lang.Math.min(c1.getNom().getNum(), c2.getNom().getNum());
+					int maxNum = java.lang.Math.max(c1.getNom().getNum(),c2.getNom().getNum());
+					int lval1 = 0;
+					for(int j = 0; j<c1.getNom().getLet().length();j++) {
+						lval1 *= 27;
+						lval1 += c1.getNom().getLet().charAt(j) - 'A' + 1;
+					}
+					int lval2 = 0;
+					for(int j = 0; j<c2.getNom().getLet().length();j++) {
+						lval2 *= 27;
+						lval2 += c2.getNom().getLet().charAt(j) - 'A' + 1;
+					}
+					int baseLet = java.lang.Math.min(lval1,lval2);
+					int maxLet = java.lang.Math.max(lval1,lval2);
+					int lval;
+					String let;
+					char l;
+					for(int j=baseLet;j<=maxLet;j++) {
+						lval = j;
+						let="";
+						while(lval>0) {
+							if(!(lval%27 == 0)) {
+								l = (char) ('A' + lval%27 - 1);
+								let = l+let;
+								lval/=27;
+							}else {
+								let="";
+								break;
+							}
+						}
+						if(!let.equals("")) {
+							for(int k=baseNum;k<=maxNum;k++) {
+								if((c=cells.getCellule(let+k))!=null) {
+									c.clear();
+						        	cells.majDependantes(c.getNom().getFullName());
+								}
+							}
+						}
+					}
+				}
+			}
         }
 	}
 
@@ -50,11 +97,65 @@ public class Tableur {
         	Interpreter i = new Interpreter(cells);
         	if(!i.isDependante(data, idCell)) {
 	        	c.affecterContenu(data);
-	        	c.affecterValeur(i.evaluer(data));
+	        	c.affecterValeur(i.evaluer(idCell,data));
 	        	cells.majDependantes(idCell);
 	        	return true;
         	}
         	return false;
+        }else {
+        	Interpreter i = new Interpreter(cells);
+        	String[] cs = idCell.split(":");
+			if(cs.length==2) {
+				Cellule c1 = cells.getCellule(cs[0]);
+				Cellule c2 = cells.getCellule(cs[1]);
+				if(c1!=null && c2!=null) {
+					int baseNum = java.lang.Math.min(c1.getNom().getNum(), c2.getNom().getNum());
+					int maxNum = java.lang.Math.max(c1.getNom().getNum(),c2.getNom().getNum());
+					int lval1 = 0;
+					for(int j = 0; j<c1.getNom().getLet().length();j++) {
+						lval1 *= 27;
+						lval1 += c1.getNom().getLet().charAt(j) - 'A' + 1;
+					}
+					int lval2 = 0;
+					for(int j = 0; j<c2.getNom().getLet().length();j++) {
+						lval2 *= 27;
+						lval2 += c2.getNom().getLet().charAt(j) - 'A' + 1;
+					}
+					int baseLet = java.lang.Math.min(lval1,lval2);
+					int maxLet = java.lang.Math.max(lval1,lval2);
+					int lval;
+					String let;
+					char l;
+					for(int j=baseLet;j<=maxLet;j++) {
+						lval = j;
+						let="";
+						while(lval>0) {
+							if(!(lval%27 == 0)) {
+								l = (char) ('A' + lval%27 - 1);
+								let = l+let;
+								lval/=27;
+							}else {
+								let="";
+								break;
+							}
+						}
+						if(!let.equals("")) {
+							for(int k=baseNum;k<=maxNum;k++) {
+								if((c=cells.getCellule(let+k))!=null) {
+						        	if(!i.isDependante(data, c.getNom().getFullName())) {
+							        	c.affecterContenu(data);
+							        	c.affecterValeur(i.evaluer(c.getNom().getFullName(),data));
+							        	cells.majDependantes(c.getNom().getFullName());
+						        	}else {
+						        		return false;
+						        	}
+								}
+							}
+						}
+					}
+					return true;
+				}
+			}
         }
         return null;
 	}
@@ -68,11 +169,69 @@ public class Tableur {
 			if(data.equals("")) return null;
 			if(!data.equals("") && !i.isDependante(data, idCible)) {
 				c.affecterContenu(data);
-				c.affecterValeur(i.evaluer(data));
+				c.affecterValeur(i.evaluer(idCible,data));
 				cells.majDependantes(idCible);
 				return true;
 			}
 			return false;
+		}else {
+			if(b!=null) {
+				Interpreter i = new Interpreter(cells);
+				String[] cs = idCible.split(":");
+				if(cs.length==2) {
+					Cellule c1 = cells.getCellule(cs[0]);
+					Cellule c2 = cells.getCellule(cs[1]);
+					if(c1!=null && c2!=null) {
+						int baseNum = java.lang.Math.min(c1.getNom().getNum(), c2.getNom().getNum());
+						int maxNum = java.lang.Math.max(c1.getNom().getNum(),c2.getNom().getNum());
+						int lval1 = 0;
+						for(int j = 0; j<c1.getNom().getLet().length();j++) {
+							lval1 *= 27;
+							lval1 += c1.getNom().getLet().charAt(j) - 'A' + 1;
+						}
+						int lval2 = 0;
+						for(int j = 0; j<c2.getNom().getLet().length();j++) {
+							lval2 *= 27;
+							lval2 += c2.getNom().getLet().charAt(j) - 'A' + 1;
+						}
+						int baseLet = java.lang.Math.min(lval1,lval2);
+						int maxLet = java.lang.Math.max(lval1,lval2);
+						int lval;
+						String let;
+						char l;
+						for(int j=baseLet;j<=maxLet;j++) {
+							lval = j;
+							let="";
+							while(lval>0) {
+								if(!(lval%27 == 0)) {
+									l = (char) ('A' + lval%27 - 1);
+									let = l+let;
+									lval/=27;
+								}else {
+									let="";
+									break;
+								}
+							}
+							if(!let.equals("")) {
+								for(int k=baseNum;k<=maxNum;k++) {
+									if((c=cells.getCellule(let+k))!=null) {
+										String data = i.transformer(b.getContenu(), idBase, c.getNom().getFullName());
+										if(data.equals("")) return null;
+										if(!data.equals("") && !i.isDependante(data, c.getNom().getFullName())) {
+											c.affecterContenu(data);
+											c.affecterValeur(i.evaluer(c.getNom().getFullName(),data));
+											cells.majDependantes(idCible);
+										}else {
+											return false;
+										}
+									}
+								}
+							}
+						}
+						return true;
+					}
+				}
+			}
 		}
 		return null;
 	}
@@ -86,6 +245,56 @@ public class Tableur {
 			}
 			return res;
 		}else {
+			String res = "";
+			String[] cs = idCell.split(":");
+			if(cs.length==2) {
+				Cellule c1 = cells.getCellule(cs[0]);
+				Cellule c2 = cells.getCellule(cs[1]);
+				if(c1!=null && c2!=null) {
+					int baseNum = java.lang.Math.min(c1.getNom().getNum(), c2.getNom().getNum());
+					int maxNum = java.lang.Math.max(c1.getNom().getNum(),c2.getNom().getNum());
+					int lval1 = 0;
+					for(int j = 0; j<c1.getNom().getLet().length();j++) {
+						lval1 *= 27;
+						lval1 += c1.getNom().getLet().charAt(j) - 'A' + 1;
+					}
+					int lval2 = 0;
+					for(int j = 0; j<c2.getNom().getLet().length();j++) {
+						lval2 *= 27;
+						lval2 += c2.getNom().getLet().charAt(j) - 'A' + 1;
+					}
+					int baseLet = java.lang.Math.min(lval1,lval2);
+					int maxLet = java.lang.Math.max(lval1,lval2);
+					int lval;
+					String let;
+					char l;
+					for(int j=baseLet;j<=maxLet;j++) {
+						lval = j;
+						let="";
+						while(lval>0) {
+							if(!(lval%27 == 0)) {
+								l = (char) ('A' + lval%27 - 1);
+								let = l+let;
+								lval/=27;
+							}else {
+								let="";
+								break;
+							}
+						}
+						if(!let.equals("")) {
+							for(int k=baseNum;k<=maxNum;k++) {
+								if((b=cells.getCellule(let+k))!=null) {
+									res += "Nom: "+b.getNom().getFullName()+System.getProperty("line.separator")+"Contenu: "+b.getContenu()+System.getProperty("line.separator");
+									if(b.getValeur()!=null) {
+										res+="Valeur: "+b.getValeur().getValeur()+System.getProperty("line.separator");
+									}
+								}
+							}
+						}
+					}
+					return res;
+				}
+			}
 			return "";
 		}
 	}

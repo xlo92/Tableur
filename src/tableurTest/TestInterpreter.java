@@ -12,7 +12,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert(i.evaluer(c.getContenu())==null);
+		assert(i.evaluer("A1",c.getContenu())==null);
 	}
 	
 	@Test
@@ -21,7 +21,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==7.5);
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==7.5);
 	}
 	
 	@Test
@@ -30,7 +30,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==3);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==3);
 	}
 	
 	@Test
@@ -39,7 +39,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==5);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==5);
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==7);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==7);
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==12);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==12);
 	}
 	
 	@Test
@@ -66,7 +66,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==-2);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==-2);
 	}
 	
 	@Test
@@ -75,7 +75,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==35);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==35);
 	}
 	
 	@Test
@@ -84,7 +84,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==5.0/7.0);
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==5.0/7.0);
 	}
 	
 	@Test
@@ -93,7 +93,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.PI);
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==java.lang.Math.PI);
 	}
 	
 	@Test
@@ -102,7 +102,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.E);
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==java.lang.Math.E);
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==8);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==8);
 	}
 	
 	@Test
@@ -120,7 +120,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==5);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==5);
 	}
 	
 	@Test
@@ -129,7 +129,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.acos(1));
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==java.lang.Math.acos(1));
 	}
 	
 	@Test
@@ -138,7 +138,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.asin(1));
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==java.lang.Math.asin(1));
 	}
 	
 	@Test
@@ -147,7 +147,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.atan(1));
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==java.lang.Math.atan(1));
 	}
 	
 	@Test
@@ -156,7 +156,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.cos(java.lang.Math.PI));
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==java.lang.Math.cos(java.lang.Math.PI));
 	}
 	
 	@Test
@@ -165,7 +165,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.sin(java.lang.Math.PI));
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==java.lang.Math.sin(java.lang.Math.PI));
 	}
 	
 	@Test
@@ -174,7 +174,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.tan(java.lang.Math.PI));
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==java.lang.Math.tan(java.lang.Math.PI));
 	}
 	
 	@Test
@@ -183,7 +183,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==java.lang.Math.exp(2));
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==java.lang.Math.exp(2));
 	}
 	
 	@Test
@@ -192,7 +192,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==2);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==2);
 	}
 	
 	@Test
@@ -201,7 +201,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==2);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==2);
 	}
 	
 	@Test
@@ -210,7 +210,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==8);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==8);
 	}
 	
 	@Test
@@ -219,7 +219,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==3);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==3);
 	}
 	
 	@Test
@@ -228,7 +228,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==8);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==8);
 	}
 	
 	@Test
@@ -237,7 +237,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==-4);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==-4);
 	}
 	
 	@Test
@@ -246,7 +246,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==7);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==7);
 	}
 	
 	@Test
@@ -255,7 +255,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==-1);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==-1);
 	}
 	
 	@Test
@@ -264,7 +264,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==12);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==12);
 	}
 	
 	@Test
@@ -273,7 +273,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Double)(i.evaluer(c.getContenu()).getValeur())==0.75);
+		assert((Double)(i.evaluer("A1",c.getContenu()).getValeur())==0.75);
 	}
 	
 	@Test
@@ -282,7 +282,7 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		Interpreter i =  new Interpreter(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==39);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==39);
 	}
 	
 	@Test
@@ -293,9 +293,9 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		cells.add(c2);
-		cells.getCellule("A2").affecterValeur(i.evaluer("5"));
+		cells.getCellule("A2").affecterValeur(i.evaluer("A2","5"));
 		i.setCells(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==5);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==5);
 	}
 	
 	@Test
@@ -306,9 +306,9 @@ public class TestInterpreter {
 		CellContainer cells = new CellContainer();
 		cells.add(c);
 		cells.add(c2);
-		cells.getCellule("A2").affecterValeur(i.evaluer("5"));
+		cells.getCellule("A2").affecterValeur(i.evaluer("A2","5"));
 		i.setCells(cells);
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==5);
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==5);
 	}
 	
 	@Test
@@ -322,9 +322,9 @@ public class TestInterpreter {
 		cells.add(c2);
 		cells.add(c3);
 		i.setCells(cells);
-		cells.getCellule("A2").affecterValeur(i.evaluer("5"));
-		cells.getCellule("B1").affecterValeur(i.evaluer("12"));
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==12);
+		cells.getCellule("A2").affecterValeur(i.evaluer("A2","5"));
+		cells.getCellule("B1").affecterValeur(i.evaluer("B1","12"));
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==12);
 	}
 	
 	@Test
@@ -340,24 +340,24 @@ public class TestInterpreter {
 		cells.add(c3);
 		cells.add(c4);
 		i.setCells(cells);
-		cells.getCellule("A2").affecterValeur(i.evaluer("5"));
-		cells.getCellule("B2").affecterValeur(i.evaluer("7"));
-		cells.getCellule("B1").affecterValeur(i.evaluer("12"));
-		assert((Integer)(i.evaluer(c.getContenu()).getValeur())==7);
+		cells.getCellule("A2").affecterValeur(i.evaluer("A2","5"));
+		cells.getCellule("B2").affecterValeur(i.evaluer("B2","7"));
+		cells.getCellule("B1").affecterValeur(i.evaluer("B1","12"));
+		assert((Integer)(i.evaluer("A1",c.getContenu()).getValeur())==7);
 	}
 	
 	@Test
 	public void testEvaluerErreurFonction() {
 		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---$max(3,5,7)");
-		assert(((String)(i.evaluer(c.getContenu()).getValeur())).equals("!ERREUR!"));
+		assert(((String)(i.evaluer("A1",c.getContenu()).getValeur())).equals("!ERREUR!"));
 	}
 	
 	@Test
 	public void testEvaluerErreurTexte() {
 		Interpreter i =  new Interpreter();
 		Cellule c = new Cellule("A1---&3");
-		assert(((String)(i.evaluer(c.getContenu()).getValeur())).equals("!ERREUR!"));
+		assert(((String)(i.evaluer("A1",c.getContenu()).getValeur())).equals("!ERREUR!"));
 	}
 	
 	@Test

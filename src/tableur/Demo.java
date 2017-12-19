@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Demo {
 
-	public static void main(String[] ars) {
+	public static void main(String[] args) {
 		String filename = null;
 		Tableur t = new Tableur();
 		boolean quit = true;
@@ -17,10 +17,10 @@ public class Demo {
 			System.out.println("1 -> Ouvrir un fichier");
 			System.out.println("2 -> Commencer un nouveau fichier");
 			System.out.println("3 -> Enregistrer le fichier");
-			System.out.println("4 -> Effacer une cellule");
-			System.out.println("5 -> Modifier une cellule");
+			System.out.println("4 -> Effacer une cellule ou une plage");
+			System.out.println("5 -> Modifier une cellule ou une plage");
 			System.out.println("6 -> Propager une cellule");
-			System.out.println("7 -> Afficher le détail d'une cellule");
+			System.out.println("7 -> Afficher le détail d'une cellule ou d'une plage");
 			System.out.println("8 -> Afficher l'ensemble des cellules");
 			System.out.println("9 -> Ajouter une \"ligne\"");
 			System.out.println("0 -> Ajouter une \"colonne\"");
@@ -53,30 +53,30 @@ public class Demo {
 				t.enregistrer(entry);
 				break;
 			case "4":
-				System.out.println("Entrez le nom de la cellule à effacer");
+				System.out.println("Entrez le nom de la cellule ou la plage à effacer");
 				entry = scan.next();
 				t.supprimerDonnee(entry);
 				break;
 			case "5":
-				System.out.println("Entrez le nom de la cellule à modifier");
+				System.out.println("Entrez le nom de la cellule ou la plage à modifier");
 				tampon = scan.next();
-				System.out.println("Entrez le contenu à lui donner");
+				System.out.println("Entrez le contenu à donner");
 				entry = scan.next();
 				if((bool = t.modifierDonnee(tampon, entry))!=null && bool==false) {
-					System.out.println("Tentative de création de cycle... Modification annulée");
+					System.out.println("Tentative de création de cycle... Modification stopée");
 				}
 				break;
 			case "6":
 				System.out.println("Entrez le nom de la cellule à propager");
 				tampon = scan.next();
-				System.out.println("Entrez le nom de la cellule cible");
+				System.out.println("Entrez le nom de la cellule cible ou de la plage cible");
 				entry = scan.next();
 				if((bool = t.propagerDonnee(tampon, entry))!=null && bool==false) {
-					System.out.println("Tentative de création de cycle... Modification annulée");
+					System.out.println("Tentative de création de cycle... Modification stopée");
 				}
 				break;
 			case "7":
-				System.out.println("Entrez le nom de la cellule");
+				System.out.println("Entrez le nom de la cellule ou de la plage");
 				entry = scan.next();
 				if(!(tampon=t.getInfosCellule(entry)).equals("")) {
 					System.out.print(tampon);
