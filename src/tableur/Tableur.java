@@ -65,10 +65,12 @@ public class Tableur {
 		if(b!=null && c!=null) {
 			Interpreter i = new Interpreter(cells);
 			String data = i.transformer(b.getContenu(), idBase, idCible);
-			if(!i.isDependante(data, idCible)) {
+			if(data.equals("")) return null;
+			if(!data.equals("") && !i.isDependante(data, idCible)) {
 				c.affecterContenu(data);
 				c.affecterValeur(i.evaluer(data));
 				cells.majDependantes(idCible);
+				return true;
 			}
 			return false;
 		}

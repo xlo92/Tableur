@@ -882,6 +882,8 @@ public class Interpreter {
 					}else {
 						return "";
 					}
+				}else {
+					contenuCelluleC += res;
 				}
 				res = "";
 				contenuCelluleC+=contenuCelluleB.charAt(i);
@@ -895,6 +897,8 @@ public class Interpreter {
 			}else {
 				return "";
 			}
+		}else {
+			contenuCelluleC += res;
 		}
 		return contenuCelluleC;
 	}
